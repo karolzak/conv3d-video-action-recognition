@@ -6,6 +6,24 @@
 from pipe import Pipe
 import numpy as np
 
+
+@Pipe
+def cachecomputex(seq, orig_ext, new_ext, func_yes=None, func_no=None, filename_field='filename'):
+    """
+    Given a sequence with filenames in `filename_field` field with extension `orig_ext`, compute and save new files with extension `new_ext`.
+    If target file does not exist, `func_yes` is executed (which should produce that file), otherwise `func_no`.
+    Original sequence is returned. `func_yes` and `func_no` are passed the original `mdict` and new file name.
+    """
+    for x in seq:
+        fn = x[filename_field]
+        nfn = fn.replace(orig_ext,new_ext)
+        if not os.path.isfile(nfn):
+            if func_yes: func_yes(x,nfn)
+        else:
+            if func_no: func_no(x,nfn)
+        yield x
+
+
 @Pipe
 def as_batch2(flow, feature_field_name='features', label_field_name='label', batchsize=16, out_features_dtype=None, out_labels_dtype=None):
     """
