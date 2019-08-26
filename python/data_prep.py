@@ -1,5 +1,4 @@
 import random
-import os
 from moviepy.editor import *
 import numpy as np
 
@@ -17,7 +16,7 @@ def get_classes(classes_file='../data/ucf101/classInd.txt'):
         classes = map(lambda cls: cls.replace('\n','').split(' '), classes)
         classes = dict(map(lambda cls: (cls[1], int(cls[0])), classes))
     return classes
-    
+
 
 def random_frames(video, target_num_frames):
     num_frames = video.shape[0]
