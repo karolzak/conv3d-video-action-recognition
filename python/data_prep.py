@@ -3,6 +3,22 @@ import os
 from moviepy.editor import *
 import numpy as np
 
+
+def get_test_split(test_split_file='../data/ucf101/testlist03.txt'):
+    with open(test_split_file, 'r') as f:
+        test_split = f.readlines()
+        test_split = list(map(lambda file: file.replace('\n','').split('/')[1], test_split))
+    return test_split
+
+
+def get_classes(classes_file='../data/ucf101/classInd.txt'):
+    with open(classes_file, 'r') as f:
+        classes = f.readlines()
+        classes = map(lambda cls: cls.replace('\n','').split(' '), classes)
+        classes = dict(map(lambda cls: (cls[1], int(cls[0])), classes))
+    return classes
+    
+
 def random_frames(video, target_num_frames):
     num_frames = video.shape[0]
     frames_idxs = random.sample(range(0, num_frames), target_num_frames)
@@ -89,6 +105,12 @@ def preprocess_input(x, mean_std, divide_std=False, channels_first=False, verbos
                 x[:,:,:,c] /= mean_std[1][c]   
             if verbose:        
                 print("Channel %s mean after preprocessing: %s" % (c, x[:,:,:,c].mean()))    
-                print("Channel %s std after preprocessing: %s" % (c, x[:,:,:,c].std()))
-            
+                print("Channel %s std after preprocessing: %s" % (c, x[:,:,:,c].std()))            
     return x
+
+
+def predict_c3d(x, model):
+    pred = []
+    for batch in x:
+        pred.append(model.predict(batch))
+    return pred
