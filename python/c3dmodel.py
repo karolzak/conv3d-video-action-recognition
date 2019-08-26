@@ -83,7 +83,7 @@ def C3D_model(weights_path=None, summary=False, trainable=True, num_layers_remov
     return model
 
 
-def get_video_descriptor(weights_path='../models/weights_C3D_sports1M_tf.h5')
+def get_video_descriptor(weights_path='../models/weights_C3D_sports1M_tf.h5'):
     model = C3D_model(weights_path=weights_path, num_layers_remove=3)
     model.add(Lambda(lambda  x: K.l2_normalize(x, axis=1)))
     return model
