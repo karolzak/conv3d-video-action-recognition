@@ -126,7 +126,6 @@ def frames_to_features_pipe(
 
 def get_features_from_files(
     data_dir, 
-    video_ext='.avi',
     features_ext='.proc.c3d-avg.npy', 
     test_split=[], 
     classes=None, 
@@ -139,8 +138,6 @@ def get_features_from_files(
     ----------
     data_dir : str, required
         The directory where all the vidoes are organised in subfolders (subfolder name=class name)
-    video_ext : str, optional
-        Extension of video files to look for in 'data_dir', by default '.avi'
     features_ext : str, optional
         Extension of serialized feature vectors, by default '.proc.c3d-avg.npy'
     test_split : list, optional
@@ -160,11 +157,11 @@ def get_features_from_files(
         List of dictionaries that can be used to access the data
     """
 
-    data = (mp.get_datastream(data_dir, classes=classes, ext=video_ext)
+    data = (mp.get_datastream(data_dir, classes=classes, ext=features_ext)
         | mp.datasplit_by_pattern(test_pattern=test_split)
         | mp.pshuffle
         | mp.apply('filename', 'c3d_avg', 
-                lambda fn: np.load(fn.replace(video_ext, features_ext)))
+                lambda fn: np.load(fn))
         | mp.silly_progress(elements=max_elements)
         | mp.select_fields(['c3d_avg', 'class_id', 'split'])
         | mp.as_list)
