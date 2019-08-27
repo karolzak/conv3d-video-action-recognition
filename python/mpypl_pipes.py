@@ -99,25 +99,33 @@ def frames_to_features_pipe(
     """
 
     (mp.get_datastream(data_dir, classes=classes, ext=ext)
+        # load all frames for each video file
         | mp.apply('filename', 'allframes',
                 lambda fn: np.load(fn), 
                 eval_strategy=mp.EvalStrategies.OnDemand) 
+        # cut each video into multiple shorter clips definded by frames_per_clip and frames_step parameters
         | mp.apply('allframes', 'clips16-8', 
                 lambda v: extract_clips(v, frames_per_clip=frames_per_clip, step=frames_step), 
                 eval_strategy=mp.EvalStrategies.OnDemand)   
+        # center crop frames into 112x112 
         | mp.apply('clips16-8', 'cropped16-8', 
                 lambda v: np.asarray([[crop_center(frame) for frame in clip] for clip in v]), 
                 eval_strategy=mp.EvalStrategies.OnDemand)   
+        # preprocess frames by substracting channel-wise mean
         | mp.apply('cropped16-8', 'proc_cropped16-8', 
                 lambda v: preprocess_input(v, mean_std, divide_std=False), 
                 eval_strategy=mp.EvalStrategies.OnDemand) 
+        # run batch predictions on c3d model to get feature vectors for each clip
         | mp.apply_batch('proc_cropped16-8', 'c3d16-8',
                         lambda x: predict_c3d(x, model),
                         batch_size=batch_size)     
+        # for each full video take feature vectors for all the extracted clips and average them
         | mp.apply('c3d16-8', 'c3d_avg', 
                 lambda v: np.average(v, axis=0), 
                 eval_strategy=mp.EvalStrategies.OnDemand) 
+        # draw silly progress
         | mp.silly_progress(elements=max_elements)
+        # save averaged feature vectors into .npy files
         | cachecomputex(ext, target_ext,
                         lambda x,nfn: np.save(nfn, x['c3d_avg']),
                         lambda x,nfn: print("Skipping saving 'c3d_avg' {}".format(x['filename'])))      
