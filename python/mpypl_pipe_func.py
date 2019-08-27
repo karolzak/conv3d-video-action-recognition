@@ -1,7 +1,6 @@
 # mPyPl - Monadic Pipeline Library for Python
 # http://github.com/shwars/mPyPl
-# Fixed temp function to generate batches based on original function from mPyPl package
-# TODO: Replace it with original function once pull request goes through
+# mPyPl pipe functions that are not yet implemented in the original repo
 
 from pipe import Pipe
 import numpy as np
