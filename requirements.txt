@@ -1,0 +1,6 @@
+numpy==1.16.4
+Keras==2.2.4
+pipe==1.5.0
+moviepy==1.0.0
+mPyPl==0.0.3.7
+scikit_learn==0.21.3
