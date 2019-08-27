@@ -36,7 +36,6 @@ def videos_to_frames_pipe(
         Max elements for silly progress indicator, by default 13320
     """
     (mp.get_datastream(data_dir, classes=classes, ext=ext)
-        | mp.take(20)
         | mp.apply('filename', 'clip',
                 lambda fn: VideoFileClip(fn), 
                 eval_strategy=mp.EvalStrategies.Value)
