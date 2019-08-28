@@ -9,6 +9,7 @@ ApplyEyeMakeUp             |  Kayaking                 |  PlayingFlute
 
 The whole beauty of C3D is that it's using Conv3D layers to learn spatiotemporal features from video frames and if trained on big enough amount of data it can be successfully used as a compact and uniform video feature extractor/descriptor. Features extracted from such model can easily be used to build a simple Linear SVM classifier. This approach achieves close-to-the-best results for most of the action recognition benchmark datasets while remaining very fast and efficient which is perfect for video processing tasks. C3D pretrained weights used in this exepriment are coming from training on Sports-1M dataset.
 
+<br>
 
 # Prerequisites
 
@@ -16,6 +17,12 @@ This project heavily relies on [mPyPl package](https://pypi.org/project/mPyPl/) 
 ```
 pip install -r requirements.txt
 ```
+
+<br>
+
+# How to run it
+
+### **End-to-end experiment**
 
 In order to run the experiment end-to-end (from original UCF101 videos, through preprocessing and features generation) you need to follow the steps below:
 
@@ -39,6 +46,10 @@ In order to run the experiment end-to-end (from original UCF101 videos, through 
 2. Download [Sports-1M pretrained C3D model](https://privdatastorage.blob.core.windows.net/github/video-action-recognition/weights_C3D_sports1M_tf.h5) and put it under `models/`
 
 3. Go to the [notebook with end-to-end experiment](notebooks/kz-ucf101-action-recognition-with-c3d-svm.ipynb) for action recognition using pretrained C3D on UCF101 and execute it cell by cell
+
+<br>
+
+### **Final classification part of experiment only**
 
 In case you don't want to go through all the data loading and preprocessing steps (as it is very time and storage consuming) you can simply download feature vectors for each video and skip the data loading and preprocessing steps from end-to-end experiment:
 
