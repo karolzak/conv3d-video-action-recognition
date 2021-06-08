@@ -43,7 +43,7 @@ In order to run the experiment end-to-end (from original UCF101 videos, through 
             └── ...
     ```
 
-2. Download [Sports-1M pretrained C3D model](https://privdatastorage.blob.core.windows.net/github/video-action-recognition/weights_C3D_sports1M_tf.h5) and put it under `models/`
+2. Download [Sports-1M pretrained C3D model](https://privdatastorage.blob.core.windows.net/github/video-action-recognition/weights_C3D_sports1M_tf.h5?sp=r&st=2021-06-08T08:50:24Z&se=2022-12-31T17:50:24Z&spr=https&sv=2020-02-10&sr=c&sig=4z4Qa3PL2U%2B6TQiNgkU1MF%2BUiNCcvCbvgGXeLBW9LLg%3D) and put it under `models/`
 
 3. Go to the [notebook with end-to-end experiment](notebooks/kz-ucf101-action-recognition-with-c3d-svm.ipynb) for action recognition using pretrained C3D on UCF101 and execute it cell by cell
 
@@ -53,7 +53,7 @@ In order to run the experiment end-to-end (from original UCF101 videos, through 
 
 In case you don't want to go through all the data loading and preprocessing steps (as it is very time and storage consuming) you can simply download feature vectors for each video and skip the data loading and preprocessing steps from end-to-end experiment:
 
-1. [Download feature vectors](https://privdatastorage.blob.core.windows.net/github/video-action-recognition/videos.zip) for each video from UCF101 and put it under `data/ucf101/videos/` so you have a structure such as this:
+1. [Download feature vectors](https://privdatastorage.blob.core.windows.net/github/video-action-recognition/videos.zip?sp=r&st=2021-06-08T08:50:24Z&se=2022-12-31T17:50:24Z&spr=https&sv=2020-02-10&sr=c&sig=4z4Qa3PL2U%2B6TQiNgkU1MF%2BUiNCcvCbvgGXeLBW9LLg%3D) for each video from UCF101 and put it under `data/ucf101/videos/` so you have a structure such as this:
 
     ```
     data
